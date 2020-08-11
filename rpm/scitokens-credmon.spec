@@ -35,12 +35,13 @@ Summary:        SciTokens credential monitor for use with HTCondor
 %endif
 
 %if 0%{?rhel} >= 8
-Requires:       python2-condor
-Requires:       python2-requests-oauthlib
-Requires:       python-six
-Requires:       python-flask
-Requires:       python2-cryptography
-Requires:       python2-scitokens
+Requires:       python3-condor
+Requires:       python3-requests-oauthlib
+Requires:       python3-six
+Requires:       python3-flask
+Requires:       python3-cryptography
+Requires:       python3-scitokens
+Requires:       python3-mod_wsgi
 %else
 Requires:       python2-condor
 Requires:       python2-requests-oauthlib
@@ -48,11 +49,11 @@ Requires:       python-six
 Requires:       python-flask
 Requires:       python2-cryptography
 Requires:       python2-scitokens
+Requires:       mod_wsgi
 %endif
 
 Requires:       condor >= 8.8.2
 Requires:       httpd
-Requires:       mod_wsgi
 
 %if 0%{?rhel} >= 8
 %description -n python3-%{pypi_name}
@@ -67,16 +68,16 @@ rm -rf %{pypi_name}.egg-info
 
 %build
 %if 0%{?rhel} >= 8
-%py2_build
-%else
 %py3_build
+%else
+%py2_build
 %endif
 
 %install
 %if 0%{?rhel} >= 8
-%py2_install
-%else
 %py3_install
+%else
+%py2_install
 %endif
 
 ln -s %{_bindir}/condor_credmon_oauth %{buildroot}/%{_bindir}/scitokens_credmon
@@ -87,7 +88,7 @@ mv examples/wsgi/scitokens-credmon.wsgi %{buildroot}/%{_var}/www/wsgi-scripts/sc
 rmdir examples/wsgi
 
 %if 0%{?rhel} >= 8
-%files -n python2-%{pypi_name}
+%files -n python3-%{pypi_name}
 %else
 %files -n python2-%{pypi_name}
 %endif
@@ -98,8 +99,8 @@ rmdir examples/wsgi
 %{_bindir}/scitokens_credential_producer
 
 %if 0%{?rhel} >= 8
-%{python2_sitelib}/credmon
-%{python2_sitelib}/scitokens_credmon-*.egg-info
+%{python3_sitelib}/credmon
+%{python3_sitelib}/scitokens_credmon-*.egg-info
 %else
 %{python2_sitelib}/credmon
 %{python2_sitelib}/scitokens_credmon-*.egg-info
