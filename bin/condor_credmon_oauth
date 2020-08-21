@@ -8,7 +8,7 @@ import sys
 from functools import partial
 from multiprocessing import Process
 import multiprocessing
-import Queue
+import queue as Queue
 from optparse import OptionParser, OptionGroup
 import logging
 
